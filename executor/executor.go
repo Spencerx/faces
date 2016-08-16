@@ -13,5 +13,10 @@ func (executor *Executor) Command(
 	name string,
 	args ...string,
 ) *loggedexec.Execution {
+	if executor.Sudo {
+		args = append([]string{`-n`, name}, args...)
+		name = `sudo`
+	}
+
 	return loggedexec.New(loggedexec.Loggerf(logger.Tracef), name, args...)
 }

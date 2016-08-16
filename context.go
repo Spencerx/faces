@@ -6,12 +6,10 @@ type context struct {
 	executor executor.Executor
 }
 
-func (c *context) Sudo() *context {
-	executor := c.executor
+func Sudo() *context {
+	context := new(context)
 
-	executor.Sudo = true
+	context.executor.Sudo = true
 
-	return &context{
-		executor: executor,
-	}
+	return context
 }

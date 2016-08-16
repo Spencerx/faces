@@ -32,7 +32,10 @@ func (true *True) Init(executor executor.Executor) error {
 }
 
 func (true *True) GetVersion() (string, error) {
-	stdout, _, err := true.executor.Command("true", "--version").Output()
+	stdout, _, err := true.executor.Command(
+		"true",
+		"--version",
+	).NoLog().Output()
 	if err != nil {
 		return "", err
 	}
