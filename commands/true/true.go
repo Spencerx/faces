@@ -5,30 +5,34 @@ import (
 	"os/exec"
 	"regexp"
 
-	"github.com/kovetskiy/executil"
 	"github.com/kovetskiy/lorg"
-	"github.com/reconquest/faces"
+	"github.com/reconquest/faces/executor"
+	"github.com/reconquest/faces/face"
 )
 
 type True struct {
 	logger lorg.Logger
+
+	executor executor.Executor
 }
 
 var (
-	_ faces.Face = (*True)(nil)
+	_ face.Face = (*True)(nil)
 )
 
-func (*True) Init() error {
+func (true *True) Init(executor executor.Executor) error {
 	_, err := exec.LookPath("true")
 	if err != nil {
 		return err
 	}
 
+	true.executor = executor
+
 	return nil
 }
 
-func (*True) GetVersion() (string, error) {
-	stdout, _, err := executil.Run(exec.Command("true", "--version"))
+func (true *True) GetVersion() (string, error) {
+	stdout, _, err := true.executor.Command("true", "--version").Output()
 	if err != nil {
 		return "", err
 	}

@@ -7,7 +7,7 @@ set -euo pipefail
     :truncate "$filename"
 
     local packages=($(
-        find . -maxdepth 1 -type d -printf '%f\n' \
+        find commands -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
             | grep -Pv '^\.' \
             | sort
     ))
@@ -38,15 +38,19 @@ PACKAGE
     local object="$(sed 's/[^ ]\+/\L\u&/g' <<< "$package")"
 
     cat >> "$filename" <<NEW
-func New$object() (*$package.$object, error) {
+func (context context) New$object() (*$package.$object, error) {
     face := new($package.$object)
 
-    err := fabricate(face, "$package")
+    err := fabricate(face, context.executor, "$package")
     if err != nil {
         return nil, err
     }
 
     return face, nil
+}
+
+func New$object() (*$package.$object, error) {
+    return new(context).New$object()
 }
 
 NEW
@@ -58,7 +62,7 @@ NEW
 
     echo "import (" >> "$filename"
     while [ $# -ne 0 ]; do
-        echo "	\"github.com/reconquest/faces/$1\"" >> "$filename"
+        echo "	\"github.com/reconquest/faces/commands/$1\"" >> "$filename"
         shift
     done
     echo ")"$'\n' >> "$filename"
