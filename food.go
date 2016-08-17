@@ -1,14 +1,14 @@
 package faces
 
 import (
-	"github.com/reconquest/faces/commands/fdisk"
+	"github.com/reconquest/faces/commands/bash"
 	"github.com/reconquest/faces/commands/true"
 )
 
-func (context context) NewFdisk() (*fdisk.Fdisk, error) {
-	face := new(fdisk.Fdisk)
+func (context context) NewBash() (*bash.Bash, error) {
+	face := new(bash.Bash)
 
-	err := fabricate(face, context.executor, "fdisk")
+	err := fabricate(face, context.executor, "bash")
 	if err != nil {
 		return nil, err
 	}
@@ -16,8 +16,8 @@ func (context context) NewFdisk() (*fdisk.Fdisk, error) {
 	return face, nil
 }
 
-func NewFdisk() (*fdisk.Fdisk, error) {
-	return new(context).NewFdisk()
+func NewBash() (*bash.Bash, error) {
+	return new(context).NewBash()
 }
 
 func (context context) NewTrue() (*true.True, error) {
