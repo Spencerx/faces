@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os/exec"
 	"regexp"
+	"strings"
 
 	"github.com/kovetskiy/lorg"
 	"github.com/reconquest/faces/executor"
@@ -48,7 +49,7 @@ func (bash *Bash) GetVersion() (string, error) {
 		return "", errors.New("ambiguous output without version definition")
 	}
 
-	return string(version), nil
+	return strings.Fields(string(version))[1], nil
 }
 
 func (bash *Bash) SetLogger(logger lorg.Logger) {
