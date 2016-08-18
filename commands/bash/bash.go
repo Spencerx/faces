@@ -6,15 +6,14 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/kovetskiy/lorg"
 	"github.com/reconquest/faces/execution"
 	"github.com/reconquest/faces/face"
 )
 
-var _ face.Face = (*Bash)(nil)
+var _ face.Interface = (*Bash)(nil)
 
 type Bash struct {
-	lorg.Logger
+	face.Abstract
 	execution.Execution
 }
 
@@ -48,10 +47,6 @@ func (bash *Bash) GetVersion() (string, error) {
 	}
 
 	return strings.Fields(string(version))[1], nil
-}
-
-func (bash *Bash) SetLogger(logger lorg.Logger) {
-	bash.Logger = logger
 }
 
 func (bash *Bash) Eval(

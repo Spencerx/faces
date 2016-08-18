@@ -5,8 +5,16 @@ import (
 	"github.com/reconquest/faces/execution"
 )
 
-type Face interface {
+type Interface interface {
 	Init(execution.Execution) error
 	GetVersion() (string, error)
 	SetLogger(lorg.Logger)
+}
+
+type Abstract struct {
+	lorg.Logger
+}
+
+func (abstract *Abstract) SetLogger(log lorg.Logger) {
+	abstract.Logger = log
 }

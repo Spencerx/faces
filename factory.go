@@ -8,7 +8,7 @@ import (
 )
 
 func fabricate(
-	face face.Face,
+	face face.Interface,
 	exec execution.Execution,
 	name string,
 ) error {
