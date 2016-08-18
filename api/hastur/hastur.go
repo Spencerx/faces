@@ -1,12 +1,14 @@
 package hastur
 
 import (
+	"encoding/json"
 	"os/exec"
 	"strings"
 
 	"github.com/reconquest/faces/execution"
 	"github.com/reconquest/faces/face"
 	"github.com/reconquest/lexec-go"
+	"github.com/seletskiy/hierr"
 )
 
 var _ face.Interface = (*Hastur)(nil)
@@ -14,6 +16,10 @@ var _ face.Interface = (*Hastur)(nil)
 type Hastur struct {
 	face.Abstract
 	execution.Execution
+
+	rootDirectory string
+	hostNetwork   string
+	beQuiet       bool
 }
 
 func (hastur *Hastur) Init(execution execution.Execution) error {
@@ -42,10 +48,38 @@ func (hastur *Hastur) NewContainer() *Container {
 	}
 }
 
+func (hastur *Hastur) SetRootDirectory(directory string) *Hastur {
+	hastur.rootDirectory = directory
+	return hastur
+}
+
+func (hastur *Hastur) SetHostNetwork(network string) *Hastur {
+	hastur.hostNetwork = network
+	return hastur
+}
+
+func (hastur *Hastur) SetQuietMode(quiet bool) *Hastur {
+	hastur.beQuiet = quiet
+	return hastur
+}
+
 func (hastur *Hastur) Start(
 	container *Container,
 ) *lexec.Execution {
 	args := []string{}
+
+	if len(hastur.rootDirectory) > 0 {
+		args = append(args, "-r", hastur.rootDirectory)
+	}
+
+	if len(hastur.hostNetwork) > 0 {
+		args = append(args, "-t", hastur.hostNetwork)
+	}
+
+	if hastur.beQuiet {
+		args = append(args, "-q")
+	}
+
 	for key, value := range container.args {
 		if key == "--" {
 			continue
@@ -64,4 +98,31 @@ func (hastur *Hastur) Start(
 	}
 
 	return hastur.Exec("hastur", args...)
+}
+
+func (hastur *Hastur) Query(name ...string) ([]Container, error) {
+	args := []string{}
+
+	if len(hastur.rootDirectory) > 0 {
+		args = append(args, "-r", hastur.rootDirectory)
+	}
+
+	args = append(args, "-j", "-Q")
+	args = append(args, name...)
+
+	process := hastur.Exec("hastur", args...)
+	stdout, _, err := process.Output()
+	if err != nil {
+		return nil, err
+	}
+
+	var containers []Container
+	err = json.Unmarshal(stdout, &containers)
+	if err != nil {
+		return nil, hierr.Errorf(
+			err, "can't unmarshal hastur output",
+		)
+	}
+
+	return containers, nil
 }
