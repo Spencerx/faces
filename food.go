@@ -1,8 +1,8 @@
 package faces
 
 import (
-	"github.com/reconquest/faces/commands/bash"
-	"github.com/reconquest/faces/commands/hastur"
+	"github.com/reconquest/faces/api/bash"
+	"github.com/reconquest/faces/api/hastur"
 )
 
 func (context context) NewBash() (*bash.Bash, error) {
