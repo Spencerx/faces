@@ -12,7 +12,7 @@ type Interface interface {
 }
 
 type Abstract struct {
-	lorg.Logger
+	Logger lorg.Logger
 }
 
 func (abstract *Abstract) SetLogger(log lorg.Logger) {
