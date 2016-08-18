@@ -6,7 +6,7 @@ import (
 
 	"github.com/reconquest/faces/execution"
 	"github.com/reconquest/faces/face"
-	"github.com/reconquest/loggedexec-go"
+	"github.com/reconquest/lexec-go"
 )
 
 var _ face.Interface = (*Hastur)(nil)
@@ -44,7 +44,7 @@ func (hastur *Hastur) NewContainer() *Container {
 
 func (hastur *Hastur) Start(
 	container *Container,
-) *loggedexec.Execution {
+) *lexec.Execution {
 	args := []string{}
 	for key, value := range container.args {
 		if key == "--" {
