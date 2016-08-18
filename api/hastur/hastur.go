@@ -7,7 +7,6 @@ import (
 
 	"github.com/reconquest/faces/execution"
 	"github.com/reconquest/faces/face"
-	"github.com/reconquest/lexec-go"
 	"github.com/seletskiy/hierr"
 )
 
@@ -65,7 +64,7 @@ func (hastur *Hastur) SetQuietMode(quiet bool) *Hastur {
 
 func (hastur *Hastur) Start(
 	container *Container,
-) *lexec.Execution {
+) *execution.Operation {
 	args := []string{}
 
 	if len(hastur.rootDirectory) > 0 {
@@ -110,8 +109,7 @@ func (hastur *Hastur) Query(name ...string) ([]Container, error) {
 	args = append(args, "-j", "-Q")
 	args = append(args, name...)
 
-	process := hastur.Exec("hastur", args...)
-	stdout, _, err := process.Output()
+	stdout, _, err := hastur.Exec("hastur", args...).Output()
 	if err != nil {
 		return nil, err
 	}
