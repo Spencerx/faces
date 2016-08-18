@@ -2,13 +2,13 @@ package faces
 
 import (
 	"github.com/reconquest/faces/commands/bash"
-	"github.com/reconquest/faces/commands/true"
+	"github.com/reconquest/faces/commands/hastur"
 )
 
 func (context context) NewBash() (*bash.Bash, error) {
 	face := new(bash.Bash)
 
-	err := fabricate(face, context.executor, "bash")
+	err := fabricate(face, context.Execution, "bash")
 	if err != nil {
 		return nil, err
 	}
@@ -20,10 +20,10 @@ func NewBash() (*bash.Bash, error) {
 	return new(context).NewBash()
 }
 
-func (context context) NewTrue() (*true.True, error) {
-	face := new(true.True)
+func (context context) NewHastur() (*hastur.Hastur, error) {
+	face := new(hastur.Hastur)
 
-	err := fabricate(face, context.executor, "true")
+	err := fabricate(face, context.Execution, "hastur")
 	if err != nil {
 		return nil, err
 	}
@@ -31,6 +31,6 @@ func (context context) NewTrue() (*true.True, error) {
 	return face, nil
 }
 
-func NewTrue() (*true.True, error) {
-	return new(context).NewTrue()
+func NewHastur() (*hastur.Hastur, error) {
+	return new(context).NewHastur()
 }
