@@ -62,7 +62,7 @@ NEW
 
     echo "import (" >> "$filename"
     while [ $# -ne 0 ]; do
-        echo "	\"github.com/reconquest/faces/commands/$1\"" >> "$filename"
+        echo "	\"github.com/reconquest/faces/api/$1\"" >> "$filename"
         shift
     done
     echo ")"$'\n' >> "$filename"
