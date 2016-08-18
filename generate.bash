@@ -7,7 +7,7 @@ set -euo pipefail
     :truncate "$filename"
 
     local packages=($(
-        find commands -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
+        find api -mindepth 1 -maxdepth 1 -type d -printf '%f\n' \
             | grep -Pv '^\.' \
             | sort
     ))
