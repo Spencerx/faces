@@ -2,11 +2,11 @@ package face
 
 import (
 	"github.com/kovetskiy/lorg"
-	"github.com/reconquest/faces/executor"
+	"github.com/reconquest/faces/execution"
 )
 
 type Face interface {
-	Init(executor.Executor) error
+	Init(execution.Execution) error
 	GetVersion() (string, error)
 	SetLogger(lorg.Logger)
 }

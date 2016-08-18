@@ -7,32 +7,30 @@ import (
 	"strings"
 
 	"github.com/kovetskiy/lorg"
-	"github.com/reconquest/faces/executor"
+	"github.com/reconquest/faces/execution"
 	"github.com/reconquest/faces/face"
 )
 
+var _ face.Face = (*Bash)(nil)
+
 type Bash struct {
-	logger   lorg.Logger
-	executor executor.Executor
+	lorg.Logger
+	execution.Execution
 }
 
-var (
-	_ face.Face = (*Bash)(nil)
-)
-
-func (bash *Bash) Init(executor executor.Executor) error {
+func (bash *Bash) Init(execution execution.Execution) error {
 	_, err := exec.LookPath("bash")
 	if err != nil {
 		return err
 	}
 
-	bash.executor = executor
+	bash.Execution = execution
 
 	return nil
 }
 
 func (bash *Bash) GetVersion() (string, error) {
-	stdout, _, err := bash.executor.Command(
+	stdout, _, err := bash.Exec(
 		"bash", "--version",
 	).NoLog().Output()
 	if err != nil {
@@ -53,11 +51,11 @@ func (bash *Bash) GetVersion() (string, error) {
 }
 
 func (bash *Bash) SetLogger(logger lorg.Logger) {
-	bash.logger = logger
+	bash.Logger = logger
 }
 
 func (bash *Bash) Eval(
 	code string,
 ) (stdout []byte, stderr []byte, err error) {
-	return bash.executor.Command("bash", "-c", code).Output()
+	return bash.Exec("bash", "-c", code).Output()
 }

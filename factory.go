@@ -1,7 +1,7 @@
 package faces
 
 import (
-	"github.com/reconquest/faces/executor"
+	"github.com/reconquest/faces/execution"
 	"github.com/reconquest/faces/face"
 	"github.com/reconquest/faces/logger"
 	"github.com/seletskiy/hierr"
@@ -9,12 +9,12 @@ import (
 
 func fabricate(
 	face face.Face,
-	executor executor.Executor,
+	exec execution.Execution,
 	name string,
 ) error {
 	face.SetLogger(logger.Logger)
 
-	err := face.Init(executor)
+	err := face.Init(exec)
 	if err != nil {
 		return hierr.Errorf(err, "can't initialize %s", name)
 	}

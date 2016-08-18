@@ -41,7 +41,7 @@ PACKAGE
 func (context context) New$object() (*$package.$object, error) {
     face := new($package.$object)
 
-    err := fabricate(face, context.executor, "$package")
+    err := fabricate(face, context.Execution, "$package")
     if err != nil {
         return nil, err
     }

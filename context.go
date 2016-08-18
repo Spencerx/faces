@@ -1,15 +1,15 @@
 package faces
 
-import "github.com/reconquest/faces/executor"
+import "github.com/reconquest/faces/execution"
 
 type context struct {
-	executor executor.Executor
+	execution.Execution
 }
 
 func Sudo() *context {
 	context := new(context)
 
-	context.executor.Sudo = true
+	context.Sudo = true
 
 	return context
 }
