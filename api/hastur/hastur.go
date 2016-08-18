@@ -42,7 +42,7 @@ func (hastur *Hastur) NewContainer() *Container {
 	}
 }
 
-func (hastur *Hastur) Create(
+func (hastur *Hastur) Start(
 	container *Container,
 ) *loggedexec.Execution {
 	args := []string{}
