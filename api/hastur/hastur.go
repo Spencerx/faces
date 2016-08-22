@@ -19,6 +19,7 @@ type Hastur struct {
 	rootDirectory string
 	hostNetwork   string
 	beQuiet       bool
+	filesystem    string
 }
 
 func (hastur *Hastur) Init(execution execution.Execution) error {
@@ -52,6 +53,11 @@ func (hastur *Hastur) SetRootDirectory(directory string) *Hastur {
 	return hastur
 }
 
+func (hastur *Hastur) SetFileSystem(fs string) *Hastur {
+	hastur.filesystem = fs
+	return hastur
+}
+
 func (hastur *Hastur) SetHostNetwork(network string) *Hastur {
 	hastur.hostNetwork = network
 	return hastur
@@ -73,6 +79,10 @@ func (hastur *Hastur) Start(
 
 	if len(hastur.hostNetwork) > 0 {
 		args = append(args, "-t", hastur.hostNetwork)
+	}
+
+	if len(hastur.filesystem) > 0 {
+		args = append(args, "-s", hastur.filesystem)
 	}
 
 	if hastur.beQuiet {
@@ -104,6 +114,10 @@ func (hastur *Hastur) Query(name ...string) ([]Container, error) {
 
 	if len(hastur.rootDirectory) > 0 {
 		args = append(args, "-r", hastur.rootDirectory)
+	}
+
+	if len(hastur.filesystem) > 0 {
+		args = append(args, "-s", hastur.filesystem)
 	}
 
 	args = append(args, "-j", "-Q")
