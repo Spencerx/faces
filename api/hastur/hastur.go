@@ -7,7 +7,7 @@ import (
 
 	"github.com/reconquest/faces/execution"
 	"github.com/reconquest/faces/face"
-	"github.com/seletskiy/hierr"
+	"github.com/reconquest/ser-go"
 )
 
 var _ face.Interface = (*Hastur)(nil)
@@ -117,7 +117,7 @@ func (hastur *Hastur) Query(name ...string) ([]Container, error) {
 	var containers []Container
 	err = json.Unmarshal(stdout, &containers)
 	if err != nil {
-		return nil, hierr.Errorf(
+		return nil, ser.Errorf(
 			err, "can't unmarshal hastur output",
 		)
 	}

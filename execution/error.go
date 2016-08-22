@@ -9,7 +9,7 @@ import (
 	"github.com/reconquest/lexec-go"
 	"github.com/reconquest/nopio-go"
 	"github.com/reconquest/prefixwriter-go"
-	"github.com/seletskiy/hierr"
+	"github.com/reconquest/ser-go"
 )
 
 func expandError(
@@ -48,7 +48,7 @@ func expandError(
 		}
 	}
 
-	return hierr.Errorf(
+	return ser.Errorf(
 		errors.New(buffer.String()),
 		"%q (exit code %d)",
 		execError.Cmd.Args, executil.GetExitStatus(execError),
