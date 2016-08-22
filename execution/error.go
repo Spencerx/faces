@@ -3,6 +3,7 @@ package execution
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"io"
 
 	"github.com/kovetskiy/executil"
@@ -48,9 +49,15 @@ func expandError(
 		}
 	}
 
-	return ser.Errorf(
-		errors.New(buffer.String()),
+	top := fmt.Sprintf(
 		"%q (exit code %d)",
-		execError.Cmd.Args, executil.GetExitStatus(execError),
+		execError.Cmd.Args,
+		executil.GetExitStatus(execError),
 	)
+
+	if buffer.Len() > 0 {
+		return ser.Errorf(errors.New(buffer.String()), top)
+	}
+
+	return errors.New(top)
 }
