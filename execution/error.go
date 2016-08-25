@@ -51,7 +51,7 @@ func expandError(
 
 	top := fmt.Sprintf(
 		"%q (exit code %d)",
-		execError.Cmd.Args,
+		execError.GetArgs(),
 		executil.GetExitStatus(execError),
 	)
 

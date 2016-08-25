@@ -1,6 +1,8 @@
 package execution
 
 import (
+	"os/exec"
+
 	"github.com/reconquest/faces/logger"
 	"github.com/reconquest/lexec-go"
 )
@@ -17,7 +19,9 @@ func (execution *Execution) Exec(
 		name = "sudo"
 	}
 
+	command := exec.Command(name, args...)
+
 	return &Operation{
-		Execution: lexec.New(lexec.Loggerf(logger.Tracef), name, args...),
+		Execution: lexec.NewExec(lexec.Loggerf(logger.Tracef), command),
 	}
 }
