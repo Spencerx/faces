@@ -1,6 +1,10 @@
 package execution
 
-import lexec "github.com/reconquest/lexec-go"
+import (
+	"syscall"
+
+	lexec "github.com/reconquest/lexec-go"
+)
 
 type Operation struct {
 	*lexec.Execution
@@ -47,5 +51,5 @@ func (operation *Operation) Output() ([]byte, []byte, error) {
 }
 
 func (operation *Operation) Kill() error {
-	return operation.Execution.Process().Kill()
+	return operation.Execution.Process().Signal(syscall.SIGKILL)
 }
