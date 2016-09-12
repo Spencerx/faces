@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/kovetskiy/executil"
+	"github.com/reconquest/executil-go"
 	"github.com/reconquest/lexec-go"
 	"github.com/reconquest/nopio-go"
 	"github.com/reconquest/prefixwriter-go"
